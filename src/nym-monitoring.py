@@ -10,8 +10,8 @@ from datetime import date, timedelta, datetime
 EXPLORER_API_URL = "explorer.nymtech.net/api/v1"
 # Your node ID
 MIXNODE_ID = 1
-MIN_PERFORMANCE = 2
-MEASURE_INTERVAL = 5
+MIN_PERFORMANCE = 0.7
+MEASURE_INTERVAL = 60
 
 # Telegram bot variables
 TELEGRAM_HTTP_API = ""
