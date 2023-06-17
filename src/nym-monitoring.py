@@ -22,7 +22,7 @@ session = requests.Session()
 logger = logging.getLogger()
 
 def get_mixnodes_info():
-    logger.debug(f"Getting data from all mixnodes")
+    logger.info(f"Getting data from all mixnodes")
 
     resp = session.get(
         f"http://{EXPLORER_API_URL}/mix-nodes"
@@ -36,7 +36,7 @@ def get_mixnodes_info():
     return resp.json()
 
 def get_mixnode_info(mixnode_index):
-    logger.debug(f"Getting data from mixnode {mixnode_index}")
+    logger.info(f"Getting data from mixnode {mixnode_index}")
 
     resp = session.get(
         f"https://{EXPLORER_API_URL}/mix-node/{mixnode_index}"
@@ -50,11 +50,12 @@ def get_mixnode_info(mixnode_index):
     return resp.json()
 
 def is_node_down(task):
+    logger.info("Checking Nym node status...")
     task.enter(MEASURE_INTERVAL, 1, is_node_down, (task,))
     node_performance = float(get_mixnode_info(MIXNODE_ID)["node_performance"]["most_recent"])
     if node_performance < MIN_PERFORMANCE:
         print(node_performance)
-        logger.debug("Sending alert to telegram")
+        logger.info("Sending alert to telegram")
         message = f"Your mixer node performance is low: {node_performance}"
         resp = session.get(
             f"https://{TELEGRAM_API_URL}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={message}"
