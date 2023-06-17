@@ -54,9 +54,8 @@ def is_node_down(task):
     task.enter(MEASURE_INTERVAL, 1, is_node_down, (task,))
     node_performance = float(get_mixnode_info(MIXNODE_ID)["node_performance"]["most_recent"])
     if node_performance < MIN_PERFORMANCE:
-        print(node_performance)
-        logger.info("Sending alert to telegram")
         message = f"Your mixer node performance is low: {node_performance}"
+        logger.info(f"Sending alert to telegram: {message}")
         resp = session.get(
             f"https://{TELEGRAM_API_URL}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={message}"
         )
